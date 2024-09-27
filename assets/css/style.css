@@ -185,29 +185,31 @@ nav.navbar.bootsnav .navbar-toggle i{color: #d92cf9;}
 /*-------------------------------------
         3.  Welcome-hero
 --------------------------------------*/
-.welcome-hero{
+.welcome-hero {
     display: flex;
     align-items: center;
     justify-content: center;
-    position:relative;
-    background:url(../images/about/welcome-banner.jpg)no-repeat;
-    background-size:cover;
-    background-position: center;
-    height:890px;
+    position: relative;
+    height: 890px;
+    overflow: hidden; /* Ensures the pseudo-element doesn't overflow */
 }
-.welcome-hero:before{
-    position:absolute;
-    content: " ";
-    top:0;
-    left:0;
-    background:rgba(31,44,108,.65);
-    width:100%;
-    height:100%;
+
+.welcome-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url(../images/about/background.jpg) no-repeat center center;
+    background-size: cover;
+    filter: blur(7px); /* Adjust the blur amount as needed */
+   
 }
 
 /*.header-text-area*/
 .header-text h2 {
-    color: #fff;
+    color: rgb(155, 228, 126);
     font-size: 54px;
     font-weight: 700;
     text-transform: uppercase;
@@ -215,7 +217,7 @@ nav.navbar.bootsnav .navbar-toggle i{color: #d92cf9;}
 }
 .header-text h2 span {color: #d92cf9;}
 .header-text p {
-    color: #fff;
+    color: rgb(155, 228, 126);
     font-size: 20px;
     font-weight: 300;
     text-transform: uppercase;
@@ -229,8 +231,8 @@ nav.navbar.bootsnav .navbar-toggle i{color: #d92cf9;}
     border-radius: 3px;
     text-transform: capitalize;
     color: #fff;
-    background: #b636ff;
-    border:1px solid #b636ff;
+    background: rgb(155, 228, 126);
+    border:1px solid rgb(155, 228, 126);
     box-shadow: 0 5px 20px rgba(0,0,0,.2);
     -webkit-transition: 0.3s linear; 
     -moz-transition: 0.3s linear; 
@@ -238,7 +240,7 @@ nav.navbar.bootsnav .navbar-toggle i{color: #d92cf9;}
     -o-transition: 0.3s linear; 
     transition: 0.3s linear;
 }
-.header-text a:hover{ box-shadow: 0 5px 20px rgba(0,0,0,.4);background:#9f00ff;border: 1px solid #9f00ff;}
+.header-text a:hover{ box-shadow: 0 5px 20px rgba(0,0,0,.4);background:#df6d02;border: 1px solid #df6d02;}
 /*.header-text-area*/
 
 /*-------------------------------------
