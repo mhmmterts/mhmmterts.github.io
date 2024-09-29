@@ -1290,7 +1290,7 @@
               if (response.ok) {
                 // Form başarıyla gönderildi
                 this.reset() // Formu temizle
-                window.location.reload() // Sayfayı yeniden yükle
+                window.location.href = '/' // Ana sayfaya yönlendir
               } else {
                 throw new Error('Form gönderilemedi.')
               }
