@@ -1062,7 +1062,11 @@
             <div class="col-md-offset-1 col-md-5 col-sm-6">
               <div class="single-contact-box">
                 <div class="contact-form">
-                  <form action="https://formspree.io/f/xdknqloz" method="POST">
+                  <form
+                    id="contactForm"
+                    action="https://formspree.io/f/xdknqloz"
+                    method="POST"
+                  >
                     <div class="row">
                       <div class="col-sm-6 col-xs-12">
                         <div class="form-group">
@@ -1070,7 +1074,7 @@
                             type="text"
                             class="form-control"
                             id="name"
-                            placeholder="Name*"
+                            placeholder="Name"
                             name="name"
                             required
                           />
@@ -1084,7 +1088,7 @@
                             type="email"
                             class="form-control"
                             id="email"
-                            placeholder="Email*"
+                            placeholder="Email"
                             name="email"
                             required
                           />
@@ -1101,7 +1105,7 @@
                             type="text"
                             class="form-control"
                             id="subject"
-                            placeholder="Subject*"
+                            placeholder="Subject"
                             name="subject"
                             required
                           />
@@ -1118,7 +1122,7 @@
                             class="form-control"
                             rows="8"
                             id="comment"
-                            placeholder="Message*"
+                            placeholder="Message"
                             name="message"
                             required
                           ></textarea>
@@ -1268,5 +1272,36 @@
 
     <!--Custom JS-->
     <script src="assets/js/custom.js"></script>
+
+    <script>
+      document
+        .getElementById('contactForm')
+        .addEventListener('submit', function (e) {
+          e.preventDefault()
+
+          fetch(this.action, {
+            method: 'POST',
+            body: new FormData(this),
+            headers: {
+              Accept: 'application/json'
+            }
+          })
+            .then(response => {
+              if (response.ok) {
+                // Form başarıyla gönderildi
+                this.reset() // Formu temizle
+                window.location.reload() // Sayfayı yeniden yükle
+              } else {
+                throw new Error('Form gönderilemedi.')
+              }
+            })
+            .catch(error => {
+              console.error('Hata:', error)
+              alert(
+                'Form gönderilirken bir hata oluştu. Lütfen tekrar deneyin.'
+              )
+            })
+        })
+    </script>
   </body>
 </html>
