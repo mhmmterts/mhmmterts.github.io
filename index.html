@@ -1278,6 +1278,7 @@
         .getElementById('contactForm')
         .addEventListener('submit', function (e) {
           e.preventDefault()
+          console.log('Form gönderiliyor...')
 
           fetch(this.action, {
             method: 'POST',
@@ -1287,10 +1288,12 @@
             }
           })
             .then(response => {
+              console.log('Yanıt alındı:', response)
               if (response.ok) {
-                // Form başarıyla gönderildi
-                this.reset() // Formu temizle
-                window.location.href = '/' // Ana sayfaya yönlendir
+                console.log('Form başarıyla gönderildi')
+                this.reset()
+                console.log('Form temizlendi, yönlendirme yapılıyor...')
+                window.location.href = '/'
               } else {
                 throw new Error('Form gönderilemedi.')
               }
