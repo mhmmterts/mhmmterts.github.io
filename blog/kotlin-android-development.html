@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&amp;subset=devanagari,latin-ext" rel="stylesheet" />
+
+    <!-- Title -->
+    <title>Modern Android Development with Kotlin | Muhammet Ertaş Blog</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/icon" href="../assets/logo/My_logo.png"/>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/bootsnav.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/responsive.css" />
+
+    <style>
+      .blog-post-container {
+        padding: 80px 0;
+        background-color: #f9f9f9;
+        margin-top: 70px;
+      }
+      .blog-post {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        padding: 40px;
+        margin-bottom: 30px;
+      }
+      .blog-header {
+        margin-bottom: 30px;
+      }
+      .blog-title {
+        color: #2c5530;
+        font-size: 2.5em;
+        margin-bottom: 15px;
+      }
+      .blog-meta {
+        color: #666;
+        font-size: 0.9em;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+      }
+      .blog-meta i {
+        color: rgb(155, 228, 126);
+        margin-right: 5px;
+      }
+      .blog-tags {
+        margin: 15px 0;
+      }
+      .blog-tag {
+        display: inline-block;
+        padding: 5px 15px;
+        background: rgba(155, 228, 126, 0.1);
+        color: #2c5530;
+        border-radius: 20px;
+        margin-right: 10px;
+        font-size: 0.9em;
+      }
+      .blog-content {
+        line-height: 1.8;
+        color: #444;
+        font-size: 1.1em;
+      }
+      .blog-content h2 {
+        color: #2c5530;
+        margin: 40px 0 20px;
+        font-size: 1.8em;
+      }
+      .blog-content p {
+        margin-bottom: 20px;
+      }
+      .blog-content pre {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 20px 0;
+        overflow-x: auto;
+      }
+      .blog-content code {
+        font-family: 'Courier New', Courier, monospace;
+      }
+      .blog-content ul, .blog-content ol {
+        margin: 20px 0;
+        padding-left: 20px;
+      }
+      .blog-content li {
+        margin-bottom: 10px;
+      }
+      .blog-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header Start -->
+    <header class="top-area">
+      <div class="header-area">
+        <nav class="navbar navbar-default bootsnav navbar-fixed dark no-background" style="background-color: rgb(155, 228, 126)">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                <i class="fa fa-bars"></i>
+              </button>
+              <a class="navbar-brand" href="/">
+                <img src="../assets/logo/My_logo.png" alt="Logo" style="height: 70px; margin-top: -25px"/>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
+              <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+                <li><a href="/">home</a></li>
+                <li><a href="../blog.html">blog</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div class="clearfix"></div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Blog Post Content Start -->
+    <section class="blog-post-container">
+      <div class="container">
+        <div class="blog-post">
+          <div class="blog-header">
+            <h1 class="blog-title">Modern Android Development with Kotlin</h1>
+            <div class="blog-meta">
+              <i class="fa fa-calendar"></i> March 5, 2024
+            </div>
+            <div class="blog-tags">
+              <span class="blog-tag">Kotlin</span>
+              <span class="blog-tag">Android</span>
+              <span class="blog-tag">Jetpack Compose</span>
+            </div>
+          </div>
+
+          <div class="blog-content">
+            <p>
+              Modern Android development has evolved significantly with the introduction of Kotlin and modern architecture components. In this guide, we'll explore how to build Android applications using Kotlin, Jetpack Compose, and MVVM architecture.
+            </p>
+
+            <h2>Why Kotlin for Android Development?</h2>
+            <p>
+              Kotlin has become the preferred language for Android development due to its modern features, null safety, and excellent interoperability with Java. Here are some key advantages:
+            </p>
+            <ul>
+              <li>Null safety by design</li>
+              <li>Concise syntax and reduced boilerplate code</li>
+              <li>Full compatibility with Java</li>
+              <li>Coroutines for asynchronous programming</li>
+              <li>Extension functions</li>
+            </ul>
+
+            <h2>Getting Started with Jetpack Compose</h2>
+            <p>
+              Jetpack Compose is Android's modern toolkit for building native UI. Here's a simple example of creating a composable function:
+            </p>
+            <pre><code>@Composable
+fun Greeting(name: String) {
+    Text(
+        text = "Hello $name!",
+        modifier = Modifier.padding(16.dp),
+        style = MaterialTheme.typography.h5
+    )
+}
+
+@Preview
+@Composable
+fun GreetingPreview() {
+    MyAppTheme {
+        Greeting("Android")
+    }
+}</code></pre>
+
+            <h2>MVVM Architecture with Kotlin</h2>
+            <p>
+              Implementing MVVM (Model-View-ViewModel) architecture in Kotlin:
+            </p>
+            <pre><code>// ViewModel
+class UserViewModel : ViewModel() {
+    private val _users = MutableStateFlow<List<User>>(emptyList())
+    val users: StateFlow<List<User>> = _users.asStateFlow()
+
+    fun fetchUsers() {
+        viewModelScope.launch {
+            try {
+                val result = userRepository.getUsers()
+                _users.value = result
+            } catch (e: Exception) {
+                // Handle error
+            }
+        }
+    }
+}
+
+// Composable UI
+@Composable
+fun UserList(viewModel: UserViewModel) {
+    val users by viewModel.users.collectAsState()
+    
+    LazyColumn {
+        items(users) { user ->
+            UserItem(user)
+        }
+    }
+}</code></pre>
+
+            <h2>Kotlin Coroutines for Async Operations</h2>
+            <p>
+              Handling asynchronous operations with Kotlin Coroutines:
+            </p>
+            <pre><code>class UserRepository(
+    private val api: UserApi,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
+    suspend fun getUsers(): List<User> = withContext(dispatcher) {
+        try {
+            api.getUsers()
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+}</code></pre>
+
+            <h2>Dependency Injection with Hilt</h2>
+            <p>
+              Using Hilt for dependency injection in Android:
+            </p>
+            <pre><code>@HiltAndroidApp
+class MyApplication : Application()
+
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+    private val viewModel: UserViewModel by viewModels()
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+    @Provides
+    @Singleton
+    fun provideUserRepository(api: UserApi): UserRepository {
+        return UserRepository(api)
+    }
+}</code></pre>
+
+            <h2>Testing in Modern Android Development</h2>
+            <p>
+              Writing tests for your Android application:
+            </p>
+            <pre><code>@Test
+fun `test user list loading`() = runTest {
+    // Given
+    val users = listOf(User("John"), User("Jane"))
+    coEvery { repository.getUsers() } returns users
+
+    // When
+    viewModel.fetchUsers()
+
+    // Then
+    assertEquals(users, viewModel.users.value)
+}</code></pre>
+
+            <h2>Best Practices</h2>
+            <p>Follow these best practices for modern Android development:</p>
+            <ul>
+              <li>Use Kotlin's language features effectively</li>
+              <li>Implement clean architecture principles</li>
+              <li>Follow Material Design guidelines</li>
+              <li>Write unit tests and UI tests</li>
+              <li>Use Kotlin Flow for reactive programming</li>
+              <li>Implement proper error handling</li>
+            </ul>
+
+            <h2>Next Steps</h2>
+            <p>
+              To further enhance your Android development skills, explore:
+            </p>
+            <ul>
+              <li>Advanced Jetpack Compose animations</li>
+              <li>Custom layouts in Compose</li>
+              <li>Performance optimization</li>
+              <li>App modularization</li>
+              <li>CI/CD for Android apps</li>
+            </ul>
+
+            <p>
+              Modern Android development with Kotlin offers a powerful and efficient way to build high-quality applications. Keep exploring and experimenting with these tools and patterns to create better Android apps.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Blog Post Content End -->
+
+    <!-- Footer Start -->
+    <footer id="footer-copyright" class="footer-copyright">
+      <div class="container">
+        <div class="hm-footer-copyright text-center">
+          <p>&copy; 2024 Muhammet Ertaş. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+    <!-- Footer End -->
+
+    <!-- JavaScript Files -->
+    <script src="../assets/js/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/bootsnav.js"></script>
+  </body>
+</html> 

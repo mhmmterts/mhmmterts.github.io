@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&amp;subset=devanagari,latin-ext"
+      rel="stylesheet"
+    />
+
+    <!-- Title -->
+    <title>Muhammet Ertaş | Blog</title>
+
+    <!-- Favicon -->
+    <link
+      rel="shortcut icon"
+      type="image/icon"
+      href="assets/logo/My_logo.png"
+    />
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/bootsnav.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+
+    <!-- Blog Page Specific Styles -->
+    <style>
+      /* Container Styles */
+      .blog-container {
+        padding: 80px 0;
+        background-color: #f9f9f9;
+        margin-top: 70px;
+      }
+
+      /* Card Styles */
+      .blog-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        height: 520px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .blog-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+      }
+
+      .col-md-4 {
+        width: 33.33333%;
+        padding: 0 15px;
+      }
+
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+      }
+
+      /* Image Styles */
+      .blog-image {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .blog-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .blog-card:hover .blog-image img {
+        transform: scale(1.05);
+      }
+
+      /* Content Styles */
+      .blog-content {
+        padding: 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        height: 320px;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      /* Tag Styles */
+      .blog-tags {
+        margin-bottom: 10px;
+        min-height: 35px;
+        overflow: hidden;
+      }
+
+      .blog-tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: rgba(155, 228, 126, 0.1);
+        color: #2c5530;
+        border-radius: 15px;
+        font-size: 0.85em;
+        margin-right: 6px;
+        margin-bottom: 6px;
+      }
+
+      .blog-title {
+        color: #2c5530;
+        font-size: 1.25em;
+        font-weight: 600;
+        line-height: 1.4;
+        overflow: hidden;
+      }
+
+      .blog-excerpt {
+        color: #555;
+        line-height: 1.6;
+        flex-grow: 1;
+        height: 85px;
+        overflow: hidden;
+        position: relative;
+        top: 5px;
+      }
+
+      .blog-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding-top: 10px;
+      }
+
+      .blog-date {
+        color: #666;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .blog-date i {
+        margin-right: 6px;
+        color: rgb(155, 228, 126);
+      }
+
+      /* Read More Button Styles */
+      .read-more {
+        color: rgb(155, 228, 126);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .read-more i {
+        margin-left: 5px;
+        transition: transform 0.3s ease;
+      }
+
+      .read-more:hover {
+        color: #df6d02;
+      }
+
+      .read-more:hover i {
+        transform: translateX(3px);
+      }
+
+      /* Section Heading Styles */
+      .section-heading {
+        padding-top: 20px;
+      }
+
+      .section-heading h2 {
+        color: #2c5530;
+        margin-bottom: 50px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-heading h2:after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70%;
+        height: 3px;
+        background: rgb(155, 228, 126);
+        border-radius: 2px;
+      }
+
+      /* No Posts Message Style */
+      .no-posts-message {
+        text-align: center;
+        width: 100%;
+        padding: 40px 20px;
+        color: #666;
+        font-size: 1.2em;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        margin: 20px 0;
+      }
+
+      @media (max-width: 991px) {
+        .col-md-4 {
+          width: 50%;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .col-md-4 {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header Start -->
+    <header class="top-area">
+      <div class="header-area">
+        <nav
+          class="navbar navbar-default bootsnav navbar-fixed dark no-background"
+          style="background-color: rgb(155, 228, 126)"
+        >
+          <div class="container">
+            <!-- Navigation Header -->
+            <div class="navbar-header">
+              <button
+                type="button"
+                class="navbar-toggle"
+                data-toggle="collapse"
+                data-target="#navbar-menu"
+              >
+                <i class="fa fa-bars"></i>
+              </button>
+              <a class="navbar-brand" href="/">
+                <img
+                  src="assets/logo/My_logo.png"
+                  alt="Logo"
+                  style="height: 70px; margin-top: -25px"
+                />
+              </a>
+            </div>
+            <!-- Navigation Menu -->
+            <div
+              class="collapse navbar-collapse menu-ui-design"
+              id="navbar-menu"
+            >
+              <ul
+                class="nav navbar-nav navbar-right"
+                data-in="fadeInDown"
+                data-out="fadeOutUp"
+              >
+                <li><a href="/">home</a></li>
+                <li class="active"><a href="blog.html">blog</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div class="clearfix"></div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Blog Section Start -->
+    <section class="blog-container">
+      <div class="container">
+        <!-- Section Title -->
+        <div class="section-heading text-center">
+          <h2>Blog Posts</h2>
+        </div>
+
+        <!-- Blog Posts Grid -->
+        <div class="row">
+          <div class="no-posts-message">
+            <i
+              class="fa fa-info-circle"
+              style="color: rgb(155, 228, 126); margin-right: 10px"
+            ></i>
+            No blog posts available yet. Stay tuned for upcoming content 😊
+          </div>
+
+          <!-- Commented Out Blog Posts -->
+          <!--
+          <div class="col-md-4 col-sm-6">
+            <div class="blog-card">
+              <div class="blog-image">
+                <img src="assets/images/blog/background.jpg" alt="Spring Boot Blog Post"/>
+              </div>
+              <div class="blog-content">
+                <div class="blog-tags">
+                  <span class="blog-tag">Software Development</span>
+                  <span class="blog-tag">Java</span>
+                </div>
+                <h3 class="blog-title">Getting Started with Spring Boot</h3>
+                <p class="blog-excerpt">
+                  Learn how to build your first Spring Boot application from scratch. We'll cover the basics of dependency injection, REST APIs, and more.
+                </p>
+                <div class="blog-footer">
+                  <a href="blog/spring-boot-getting-started.html" class="read-more">
+                    Read More <i class="fa fa-arrow-right"></i>
+                  </a>
+                  <div class="blog-date">
+                    <i class="fa fa-calendar"></i>
+                    March 15, 2024
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-sm-6">
+            <div class="blog-card">
+              <div class="blog-image">
+                <img src="assets/images/blog/background.jpg" alt="AI Development Blog Post"/>
+              </div>
+              <div class="blog-content">
+                <div class="blog-tags">
+                  <span class="blog-tag">AI</span>
+                  <span class="blog-tag">Machine Learning</span>
+                </div>
+                <h3 class="blog-title">Introduction to AI Development</h3>
+                <p class="blog-excerpt">
+                  Discover the fundamentals of AI development and how to get started with machine learning projects using Python.
+                </p>
+                <div class="blog-footer">
+                  <a href="blog/ai-development-intro.html" class="read-more">
+                    Read More <i class="fa fa-arrow-right"></i>
+                  </a>
+                  <div class="blog-date">
+                    <i class="fa fa-calendar"></i>
+                    March 10, 2024
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-sm-6">
+            <div class="blog-card">
+              <div class="blog-image">
+                <img src="assets/images/blog/background.jpg" alt="Kotlin Android Blog Post"/>
+              </div>
+              <div class="blog-content">
+                <div class="blog-tags">
+                  <span class="blog-tag">Kotlin</span>
+                  <span class="blog-tag">Android</span>
+                </div>
+                <h3 class="blog-title">Modern Android Development with Kotlin</h3>
+                <p class="blog-excerpt">
+                  Explore modern Android development practices using Kotlin, including Jetpack Compose and MVVM architecture.
+                </p>
+                <div class="blog-footer">
+                  <a href="blog/kotlin-android-development.html" class="read-more">
+                    Read More <i class="fa fa-arrow-right"></i>
+                  </a>
+                  <div class="blog-date">
+                    <i class="fa fa-calendar"></i>
+                    March 5, 2024
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-sm-6">
+            <div class="blog-card">
+              <div class="blog-image">
+                <img src="assets/images/blog/background.jpg" alt="DevOps CI/CD Blog Post"/>
+              </div>
+              <div class="blog-content">
+                <div class="blog-tags">
+                  <span class="blog-tag">DevOps</span>
+                  <span class="blog-tag">CI/CD</span>
+                  <span class="blog-tag">Docker</span>
+                </div>
+                <h3 class="blog-title">Implementing CI/CD Pipeline with GitHub Actions</h3>
+                <p class="blog-excerpt">
+                  Learn how to set up a complete CI/CD pipeline using GitHub Actions. We'll cover automated testing, Docker containerization, and deployment strategies.
+                </p>
+                <div class="blog-footer">
+                  <a href="blog/cicd-github-actions.html" class="read-more">
+                    Read More <i class="fa fa-arrow-right"></i>
+                  </a>
+                  <div class="blog-date">
+                    <i class="fa fa-calendar"></i>
+                    March 1, 2024
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          -->
+        </div>
+      </div>
+    </section>
+    <!-- Blog Section End -->
+
+    <!-- Footer Start -->
+    <footer id="footer-copyright" class="footer-copyright">
+      <div class="container">
+        <div class="hm-footer-copyright text-center">
+          <p>&copy; 2024 Muhammet Ertaş. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+    <!-- Footer End -->
+
+    <!-- JavaScript Files -->
+    <script src="assets/js/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/bootsnav.js"></script>
+  </body>
+</html>
