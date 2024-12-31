@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muhammet Ertaş | For Fun</title>
+    <link
+      rel="shortcut icon"
+      type="image/icon"
+      href="assets/logo/My_logo.png"
+    />
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #000;
+        font-family: 'Arial', sans-serif;
+      }
+
+      #matrix-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      #scene-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+
+      .home-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        background: rgba(155, 228, 126, 0.2);
+        border: 2px solid rgb(155, 228, 126);
+        color: rgb(155, 228, 126);
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        transform: scale(1);
+      }
+
+      .home-btn:hover {
+        background: rgba(155, 228, 126, 0.3);
+        transform: scale(1.1);
+        color: rgb(155, 228, 126);
+        text-decoration: none;
+      }
+
+      .controls-panel {
+        position: fixed;
+        right: -300px;
+        top: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 15px;
+        border-radius: 10px 0 0 10px;
+        border: 2px solid rgb(155, 228, 126, 0.3);
+        border-right: none;
+        color: white;
+        z-index: 1000;
+        width: 250px;
+        transition: right 0.3s ease;
+      }
+
+      .controls-panel.open {
+        right: 0;
+      }
+
+      .toggle-controls {
+        position: absolute;
+        left: -35px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        border: 2px solid rgb(155, 228, 126, 0.3);
+        border-right: none;
+        color: rgb(155, 228, 126);
+        padding: 8px 5px;
+        border-radius: 8px 0 0 8px;
+        cursor: pointer;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        height: auto;
+        min-height: 80px;
+        transition: all 0.3s ease;
+        font-size: 14px;
+      }
+
+      .toggle-controls:hover {
+        background: rgba(155, 228, 126, 0.2);
+        padding-left: 8px;
+      }
+
+      .control-group {
+        margin-bottom: 15px;
+        border-bottom: 1px solid rgba(155, 228, 126, 0.3);
+        padding-bottom: 15px;
+      }
+
+      .control-group:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .control-group h3 {
+        margin: 0 0 5px 0;
+        color: rgb(155, 228, 126);
+        font-size: 14px;
+      }
+
+      .color-picker {
+        width: 100%;
+        height: 30px;
+        border: none;
+        border-radius: 5px;
+        background: none;
+        cursor: pointer;
+      }
+
+      .slider {
+        width: 100%;
+        margin: 5px 0;
+        height: 5px;
+      }
+
+      .shape-btn {
+        background: rgba(155, 228, 126, 0.2);
+        border: 1px solid rgb(155, 228, 126);
+        color: rgb(155, 228, 126);
+        padding: 5px 10px;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 3px;
+        width: 100%;
+        font-size: 12px;
+        transform: scale(1);
+      }
+
+      .shape-btn:hover {
+        background: rgba(155, 228, 126, 0.3);
+        transform: scale(1.1);
+      }
+
+      .shape-btn.active {
+        background: rgba(155, 228, 126, 0.5);
+      }
+
+      @media (max-width: 768px) {
+        .controls-panel {
+          right: 10px;
+          padding: 15px;
+        }
+
+        .shape-btn {
+          padding: 6px 12px;
+          font-size: 14px;
+        }
+      }
+
+      .matrix-controls {
+        display: none;
+      }
+
+      #instructions {
+        position: fixed;
+        bottom: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        color: rgb(155, 228, 126);
+        padding: 15px;
+        border-radius: 10px;
+        border: 2px solid rgb(155, 228, 126, 0.3);
+        font-size: 14px;
+        text-align: center;
+        z-index: 1000;
+        transition: bottom 0.3s ease;
+      }
+
+      #instructions.visible {
+        bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="matrix-background"></canvas>
+    <a href="/" class="home-btn">
+      <i class="fa fa-home"></i>
+      Home
+    </a>
+
+    <div class="controls-panel">
+      <button class="toggle-controls">Controls</button>
+
+      <div class="control-group">
+        <h3>Particle Color</h3>
+        <input
+          type="color"
+          id="particleColor"
+          class="color-picker"
+          value="#9BE47E"
+        />
+      </div>
+
+      <div class="control-group">
+        <h3>Particle Size</h3>
+        <input
+          type="range"
+          id="particleSize"
+          class="slider"
+          min="0.1"
+          max="1"
+          step="0.1"
+          value="0.2"
+        />
+      </div>
+
+      <div class="control-group">
+        <h3>Shape Size</h3>
+        <input
+          type="range"
+          id="shapeSize"
+          class="slider"
+          min="10"
+          max="50"
+          step="1"
+          value="30"
+        />
+      </div>
+
+      <div class="control-group">
+        <h3>Rotation Speed</h3>
+        <input
+          type="range"
+          id="rotationSpeed"
+          class="slider"
+          min="0.001"
+          max="0.01"
+          step="0.001"
+          value="0.002"
+        />
+      </div>
+
+      <div class="control-group">
+        <h3>Shapes</h3>
+        <button class="shape-btn active" data-shape="sphere">Sphere</button>
+        <button class="shape-btn" data-shape="cube">Cube</button>
+        <button class="shape-btn" data-shape="torus">Torus</button>
+        <button class="shape-btn" data-shape="spiral">Spiral</button>
+        <button class="shape-btn" data-shape="wave">Wave</button>
+        <button class="shape-btn" data-shape="dna">DNA</button>
+        <button class="shape-btn" data-shape="galaxy">Galaxy</button>
+      </div>
+
+      <div class="control-group">
+        <h3>Matrix Effect</h3>
+        <label style="display: block; margin-bottom: 10px">
+          <input type="checkbox" id="matrixEnabled" /> Enable Matrix
+        </label>
+        <div>
+          <label>Speed:</label>
+          <input
+            type="range"
+            id="matrixSpeed"
+            class="slider"
+            min="1"
+            max="10"
+            value="5"
+          />
+        </div>
+        <div>
+          <label>Opacity:</label>
+          <input
+            type="range"
+            id="matrixOpacity"
+            class="slider"
+            min="1"
+            max="50"
+            value="15"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div id="scene-container"></div>
+    <div id="instructions">
+      <p style="margin: 0">
+        ⌨️ Controls: ↑↓ (Zoom) | ←→ (Rotate) | 1-7 (Change Shape) | C (Random
+        Color) | Mouse Wheel (Zoom) | Drag to Rotate
+      </p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      let scene, camera, renderer, particles
+      const particleCount = 8000
+      let currentShape = 'sphere'
+      let rotationSpeed = 0.002
+      let particleSize = 0.2
+      let shapeSize = 30
+      let particleColor = new THREE.Color(0x9be47e)
+      let zoomLevel = 50
+      let audioContext
+      let audioInitialized = false
+      let isDragging = false
+      let previousMousePosition = { x: 0, y: 0 }
+
+      // Add orbital movement variables
+      let time = 0
+      const orbitSpeed = {
+        x: 0.0005,
+        y: 0.0007,
+        z: 0.0003
+      }
+      const orbitRadius = {
+        x: 15,
+        y: 15,
+        z: 10
+      }
+
+      // Audio setup
+      function initAudio() {
+        if (!audioInitialized) {
+          audioContext = new (window.AudioContext ||
+            window.webkitAudioContext)()
+          audioInitialized = true
+        }
+      }
+
+      function playNote(frequency) {
+        if (!audioContext) return
+
+        const oscillator = audioContext.createOscillator()
+        const gainNode = audioContext.createGain()
+
+        oscillator.type = 'sine'
+        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime)
+
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime)
+        gainNode.gain.exponentialRampToValueAtTime(
+          0.01,
+          audioContext.currentTime + 0.5
+        )
+
+        oscillator.connect(gainNode)
+        gainNode.connect(audioContext.destination)
+
+        oscillator.start()
+        oscillator.stop(audioContext.currentTime + 0.5)
+      }
+
+      function init() {
+        scene = new THREE.Scene()
+        camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        )
+        camera.position.z = 50
+
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+        renderer.setSize(window.innerWidth, window.innerHeight)
+        renderer.setClearColor(0x000000, 0)
+        document
+          .getElementById('scene-container')
+          .appendChild(renderer.domElement)
+
+        createParticles()
+        setupEventListeners()
+        animate()
+      }
+
+      function createParticles() {
+        const geometry = new THREE.BufferGeometry()
+        const positions = new Float32Array(particleCount * 3)
+
+        for (let i = 0; i < particleCount * 3; i += 3) {
+          positions[i] = (Math.random() - 0.5) * 100
+          positions[i + 1] = (Math.random() - 0.5) * 100
+          positions[i + 2] = (Math.random() - 0.5) * 100
+        }
+
+        geometry.setAttribute(
+          'position',
+          new THREE.BufferAttribute(positions, 3)
+        )
+
+        const material = new THREE.PointsMaterial({
+          size: particleSize,
+          color: particleColor,
+          transparent: true,
+          opacity: 0.8,
+          blending: THREE.AdditiveBlending
+        })
+
+        if (particles) scene.remove(particles)
+        particles = new THREE.Points(geometry, material)
+        scene.add(particles)
+
+        morphParticles(currentShape)
+      }
+
+      function morphParticles(shape) {
+        const positions = particles.geometry.attributes.position.array
+
+        for (let i = 0; i < positions.length; i += 3) {
+          let x, y, z
+
+          switch (shape) {
+            case 'sphere':
+              const phi = Math.random() * Math.PI * 2
+              const costheta = Math.random() * 2 - 1
+              const u = Math.random()
+              const theta = Math.acos(costheta)
+              const r = shapeSize * Math.cbrt(u)
+
+              x = r * Math.sin(theta) * Math.cos(phi)
+              y = r * Math.sin(theta) * Math.sin(phi)
+              z = r * Math.cos(theta)
+              break
+
+            case 'cube':
+              x = (Math.random() - 0.5) * shapeSize * 2
+              y = (Math.random() - 0.5) * shapeSize * 2
+              z = (Math.random() - 0.5) * shapeSize * 2
+              const max = Math.max(Math.abs(x), Math.abs(y), Math.abs(z))
+              x = (x / max) * shapeSize
+              y = (y / max) * shapeSize
+              z = (z / max) * shapeSize
+              break
+
+            case 'torus':
+              const u1 = Math.random() * Math.PI * 2
+              const u2 = Math.random() * Math.PI * 2
+              const majorRadius = shapeSize // major radius
+              const minorRadius = shapeSize * 0.3 // minor radius
+              x = (majorRadius + minorRadius * Math.cos(u2)) * Math.cos(u1)
+              y = (majorRadius + minorRadius * Math.cos(u2)) * Math.sin(u1)
+              z = minorRadius * Math.sin(u2)
+              break
+
+            case 'spiral':
+              const spiralAngle = Math.random() * Math.PI * 10
+              const spiralRadius = Math.random() * shapeSize
+              x = Math.cos(spiralAngle) * spiralRadius
+              y = Math.sin(spiralAngle) * spiralRadius
+              z = spiralAngle * 2 - shapeSize
+              break
+
+            case 'wave':
+              x = (Math.random() - 0.5) * shapeSize * 2
+              z = (Math.random() - 0.5) * shapeSize * 2
+              y =
+                Math.sin(x * 0.1) * shapeSize * 0.3 +
+                Math.cos(z * 0.1) * shapeSize * 0.3
+              break
+
+            case 'dna':
+              const dnaT = (i / positions.length) * Math.PI * 4
+              const dnaRadius = shapeSize * 0.3
+              x = Math.cos(dnaT) * dnaRadius
+              y = (i / positions.length - 0.5) * shapeSize * 2
+              z = Math.sin(dnaT) * dnaRadius
+
+              // Add second helix
+              if (Math.random() > 0.5) {
+                x = Math.cos(dnaT + Math.PI) * dnaRadius
+                z = Math.sin(dnaT + Math.PI) * dnaRadius
+              }
+              break
+
+            case 'galaxy':
+              const galaxyAngle = Math.random() * Math.PI * 2
+              const galaxyRadius = Math.pow(Math.random(), 0.5) * shapeSize
+              const armOffset =
+                (galaxyAngle + galaxyRadius * 0.2) % (Math.PI * 2)
+              x = Math.cos(armOffset) * galaxyRadius
+              y = (Math.random() - 0.5) * shapeSize * 0.2
+              z = Math.sin(armOffset) * galaxyRadius
+              break
+          }
+
+          positions[i] = x
+          positions[i + 1] = y
+          positions[i + 2] = z
+        }
+
+        particles.geometry.attributes.position.needsUpdate = true
+      }
+
+      let isColorTransitioning = false
+      let targetColor = new THREE.Color(0x9be47e)
+      let trailParticles = []
+
+      function createTrail() {
+        const trailGeometry = new THREE.BufferGeometry()
+        const trailPositions = new Float32Array(100 * 3)
+        trailGeometry.setAttribute(
+          'position',
+          new THREE.BufferAttribute(trailPositions, 3)
+        )
+
+        const trailMaterial = new THREE.PointsMaterial({
+          size: particleSize * 0.5,
+          color: particleColor,
+          transparent: true,
+          opacity: 0.4,
+          blending: THREE.AdditiveBlending
+        })
+
+        const trail = new THREE.Points(trailGeometry, trailMaterial)
+        scene.add(trail)
+        trailParticles.push({
+          points: trail,
+          life: 50
+        })
+      }
+
+      function updateTrails() {
+        // Create new trail
+        if (Math.random() < 0.1) {
+          createTrail()
+        }
+
+        // Update existing trails
+        for (let i = trailParticles.length - 1; i >= 0; i--) {
+          const trail = trailParticles[i]
+          trail.life--
+
+          trail.points.material.opacity = (trail.life / 50) * 0.4
+
+          if (trail.life <= 0) {
+            scene.remove(trail.points)
+            trailParticles.splice(i, 1)
+          }
+        }
+      }
+
+      function transitionToColor(newColor) {
+        targetColor = new THREE.Color(newColor)
+        isColorTransitioning = true
+      }
+
+      function updateColorTransition() {
+        if (!isColorTransitioning) return
+
+        const currentColor = particles.material.color
+        currentColor.lerp(targetColor, 0.05)
+
+        if (currentColor.distanceTo(targetColor) < 0.01) {
+          isColorTransitioning = false
+        }
+
+        // Update trail colors
+        trailParticles.forEach(trail => {
+          trail.points.material.color = currentColor
+        })
+      }
+
+      function setupEventListeners() {
+        window.addEventListener('resize', onWindowResize)
+
+        // Mouse wheel zoom
+        window.addEventListener('wheel', e => {
+          if (e.deltaY > 0) {
+            zoomLevel = Math.min(100, zoomLevel + 2)
+          } else {
+            zoomLevel = Math.max(30, zoomLevel - 2)
+          }
+        })
+
+        // Keyboard controls
+        document.addEventListener('keydown', e => {
+          switch (e.key) {
+            case 'ArrowUp':
+              zoomLevel = Math.max(30, zoomLevel - 5)
+              break
+            case 'ArrowDown':
+              zoomLevel = Math.min(100, zoomLevel + 5)
+              break
+            case 'ArrowLeft':
+              particles.rotation.y -= 0.2
+              break
+            case 'ArrowRight':
+              particles.rotation.y += 0.2
+              break
+            case 'c': // Random color
+              const randomColor = new THREE.Color(Math.random() * 0xffffff)
+              particles.material.color = randomColor
+              particleColor = randomColor
+              document.getElementById('particleColor').value =
+                '#' + randomColor.getHexString()
+              break
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+              const shapes = ['sphere', 'cube', 'torus', 'spiral', 'wave']
+              const index = parseInt(e.key) - 1
+              if (index < shapes.length) {
+                currentShape = shapes[index]
+                document.querySelectorAll('.shape-btn').forEach(btn => {
+                  btn.classList.remove('active')
+                  if (btn.dataset.shape === currentShape) {
+                    btn.classList.add('active')
+                  }
+                })
+                morphParticles(currentShape)
+                playNote(220 + index * 110)
+              }
+              break
+          }
+        })
+
+        // Mouse drag controls
+        document.addEventListener('mousedown', e => {
+          isDragging = true
+          previousMousePosition = {
+            x: e.clientX,
+            y: e.clientY
+          }
+        })
+
+        document.addEventListener('mousemove', e => {
+          if (!isDragging) return
+
+          const deltaMove = {
+            x: e.clientX - previousMousePosition.x,
+            y: e.clientY - previousMousePosition.y
+          }
+
+          particles.rotation.y += deltaMove.x * 0.01
+          particles.rotation.x += deltaMove.y * 0.01
+
+          previousMousePosition = {
+            x: e.clientX,
+            y: e.clientY
+          }
+        })
+
+        document.addEventListener('mouseup', () => {
+          isDragging = false
+        })
+
+        // Color control
+        document
+          .getElementById('particleColor')
+          .addEventListener('input', e => {
+            particles.material.color.setStyle(e.target.value)
+          })
+
+        // Size control
+        document.getElementById('particleSize').addEventListener('input', e => {
+          particleSize = parseFloat(e.target.value)
+          particles.material.size = particleSize
+        })
+
+        // Shape size control
+        document.getElementById('shapeSize').addEventListener('input', e => {
+          shapeSize = parseFloat(e.target.value)
+          morphParticles(currentShape)
+        })
+
+        // Rotation speed control
+        document
+          .getElementById('rotationSpeed')
+          .addEventListener('input', e => {
+            rotationSpeed = parseFloat(e.target.value)
+          })
+
+        // Shape buttons
+        document.querySelectorAll('.shape-btn').forEach(btn => {
+          btn.addEventListener('click', e => {
+            document
+              .querySelectorAll('.shape-btn')
+              .forEach(b => b.classList.remove('active'))
+            e.target.classList.add('active')
+            currentShape = e.target.dataset.shape
+            morphParticles(currentShape)
+          })
+        })
+      }
+
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight
+        camera.updateProjectionMatrix()
+        renderer.setSize(window.innerWidth, window.innerHeight)
+      }
+
+      function animate() {
+        requestAnimationFrame(animate)
+        time += 0.01
+
+        // Update particle rotation
+        particles.rotation.x += rotationSpeed
+        particles.rotation.y += rotationSpeed * 1.5
+        particles.rotation.z += rotationSpeed * 0.5
+
+        // Update camera position
+        camera.position.x = Math.sin(time * orbitSpeed.x) * orbitRadius.x
+        camera.position.y = Math.cos(time * orbitSpeed.y) * orbitRadius.y
+        camera.position.z =
+          zoomLevel + Math.sin(time * orbitSpeed.z) * orbitRadius.z
+
+        camera.lookAt(scene.position)
+        renderer.render(scene, camera)
+      }
+
+      // Matrix background effect
+      const canvas = document.getElementById('matrix-background')
+      const ctx = canvas.getContext('2d')
+
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+
+      const katakana =
+        'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン'
+      const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      const nums = '0123456789'
+      const alphabet = katakana + latin + nums
+
+      const fontSize = 16
+      const columns = canvas.width / fontSize
+      const rainDrops = Array(Math.ceil(columns)).fill(1)
+
+      let matrixEnabled = false
+      let matrixSpeed = 5
+      let matrixOpacity = 15
+
+      // Add Matrix Controls
+      const matrixControls = document.createElement('div')
+      matrixControls.className = 'matrix-controls'
+      matrixControls.innerHTML = `
+        <label>
+          <input type="checkbox" id="matrixEnabled">
+          Matrix Effect
+        </label>
+        <label>
+          Speed:
+          <input type="range" id="matrixSpeed" min="1" max="10" value="5">
+        </label>
+        <label>
+          Opacity:
+          <input type="range" id="matrixOpacity" min="1" max="50" value="15">
+        </label>
+      `
+      document.body.appendChild(matrixControls)
+
+      function drawMatrix() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+        ctx.fillStyle = `rgba(155, 228, 126, ${matrixOpacity / 40})`
+        ctx.font = fontSize + 'px monospace'
+
+        for (let i = 0; i < rainDrops.length; i++) {
+          const text = alphabet.charAt(
+            Math.floor(Math.random() * alphabet.length)
+          )
+          ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize)
+
+          if (
+            rainDrops[i] * fontSize > canvas.height &&
+            Math.random() > 0.975
+          ) {
+            rainDrops[i] = 0
+          }
+          rainDrops[i] += matrixSpeed / 5
+        }
+      }
+
+      function animateMatrix() {
+        if (matrixEnabled) {
+          drawMatrix()
+        }
+        requestAnimationFrame(animateMatrix)
+      }
+
+      // Matrix controls event listeners
+      document.getElementById('matrixEnabled').addEventListener('change', e => {
+        matrixEnabled = e.target.checked
+        canvas.style.display = matrixEnabled ? 'block' : 'none'
+        document.getElementById('scene-container').style.display = matrixEnabled
+          ? 'none'
+          : 'block'
+
+        if (matrixEnabled) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+          rainDrops.fill(1)
+        }
+      })
+
+      document.getElementById('matrixSpeed').addEventListener('input', e => {
+        matrixSpeed = parseInt(e.target.value)
+      })
+
+      document.getElementById('matrixOpacity').addEventListener('input', e => {
+        matrixOpacity = parseInt(e.target.value)
+      })
+
+      // Handle window resize for matrix effect
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        rainDrops.length = Math.ceil(canvas.width / fontSize)
+        rainDrops.fill(1)
+      })
+
+      // Start Matrix animation
+      animateMatrix()
+
+      // Initialize scene
+      init()
+
+      // Control panel toggle functionality
+      document.addEventListener('DOMContentLoaded', function () {
+        const controlsPanel = document.querySelector('.controls-panel')
+        const instructions = document.getElementById('instructions')
+        const toggleButton = document.querySelector('.toggle-controls')
+        let isPanelOpen = true // Panel başlangıçta açık
+
+        // Panel durumunu değiştiren fonksiyon
+        function togglePanel() {
+          isPanelOpen = !isPanelOpen
+          if (isPanelOpen) {
+            controlsPanel.style.right = '0px'
+            instructions.style.bottom = '20px'
+          } else {
+            controlsPanel.style.right = '-300px'
+            instructions.style.bottom = '-100px'
+          }
+        }
+
+        // Toggle butonuna tıklama olayı
+        toggleButton.addEventListener('click', function (e) {
+          e.preventDefault()
+          togglePanel()
+        })
+
+        // Başlangıçta paneli aç
+        controlsPanel.style.right = '0px'
+        instructions.style.bottom = '20px'
+      })
+    </script>
+  </body>
+</html>
