@@ -67,16 +67,16 @@
 
       .controls-panel {
         position: fixed;
-        right: -300px;
+        right: -190px;
         top: 20px;
         background: rgba(0, 0, 0, 0.7);
-        padding: 15px;
+        padding: 10px;
         border-radius: 10px 0 0 10px;
         border: 2px solid rgb(155, 228, 126, 0.3);
         border-right: none;
         color: white;
         z-index: 1000;
-        width: 250px;
+        width: 220px;
         transition: right 0.3s ease;
       }
 
@@ -93,15 +93,16 @@
         border: 2px solid rgb(155, 228, 126, 0.3);
         border-right: none;
         color: rgb(155, 228, 126);
-        padding: 8px 5px;
+        padding: 6px 4px;
         border-radius: 8px 0 0 8px;
         cursor: pointer;
         writing-mode: vertical-rl;
         text-orientation: mixed;
         height: auto;
-        min-height: 80px;
+        min-height: 70px;
         transition: all 0.3s ease;
-        font-size: 14px;
+        font-size: 12px;
+        width: 30px;
       }
 
       .toggle-controls:hover {
@@ -110,9 +111,9 @@
       }
 
       .control-group {
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         border-bottom: 1px solid rgba(155, 228, 126, 0.3);
-        padding-bottom: 15px;
+        padding-bottom: 10px;
       }
 
       .control-group:last-child {
@@ -122,37 +123,37 @@
       }
 
       .control-group h3 {
-        margin: 0 0 5px 0;
+        margin: 0 0 3px 0;
         color: rgb(155, 228, 126);
-        font-size: 14px;
+        font-size: 12px;
       }
 
       .color-picker {
         width: 100%;
-        height: 30px;
+        height: 25px;
         border: none;
-        border-radius: 5px;
+        border-radius: 4px;
         background: none;
         cursor: pointer;
       }
 
       .slider {
         width: 100%;
-        margin: 5px 0;
-        height: 5px;
+        margin: 3px 0;
+        height: 4px;
       }
 
       .shape-btn {
         background: rgba(155, 228, 126, 0.2);
         border: 1px solid rgb(155, 228, 126);
         color: rgb(155, 228, 126);
-        padding: 5px 10px;
-        border-radius: 15px;
+        padding: 4px 8px;
+        border-radius: 12px;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin: 3px;
+        margin: 2px;
         width: 100%;
-        font-size: 12px;
+        font-size: 11px;
         transform: scale(1);
       }
 
@@ -167,13 +168,11 @@
 
       @media (max-width: 768px) {
         .controls-panel {
-          right: 10px;
-          padding: 15px;
+          right: -190px;
         }
 
-        .shape-btn {
-          padding: 6px 12px;
-          font-size: 14px;
+        .controls-panel.open {
+          right: 0;
         }
       }
 
@@ -199,6 +198,14 @@
 
       #instructions.visible {
         bottom: 20px;
+      }
+
+      label {
+        font-size: 11px;
+      }
+
+      input[type='checkbox'] {
+        transform: scale(0.8);
       }
     </style>
   </head>
@@ -839,16 +846,31 @@
         const controlsPanel = document.querySelector('.controls-panel')
         const instructions = document.getElementById('instructions')
         const toggleButton = document.querySelector('.toggle-controls')
-        let isPanelOpen = true // Panel başlangıçta açık
+        let isPanelOpen = true
+
+        // Canvas genişliğini kontrol eden fonksiyon
+        function checkCanvasWidth() {
+          const sceneContainer = document.getElementById('scene-container')
+          if (sceneContainer.offsetWidth <= 1000) {
+            instructions.style.display = 'none'
+          } else {
+            instructions.style.display = 'block'
+            if (isPanelOpen) {
+              instructions.style.bottom = '20px'
+            }
+          }
+        }
 
         // Panel durumunu değiştiren fonksiyon
         function togglePanel() {
           isPanelOpen = !isPanelOpen
           if (isPanelOpen) {
             controlsPanel.style.right = '0px'
-            instructions.style.bottom = '20px'
+            if (document.getElementById('scene-container').offsetWidth > 1000) {
+              instructions.style.bottom = '20px'
+            }
           } else {
-            controlsPanel.style.right = '-300px'
+            controlsPanel.style.right = '-250px'
             instructions.style.bottom = '-100px'
           }
         }
@@ -859,9 +881,15 @@
           togglePanel()
         })
 
+        // İlk yüklemede kontrol et
+        checkCanvasWidth()
+
+        // Ekran boyutu değiştiğinde kontrol et
+        window.addEventListener('resize', checkCanvasWidth)
+
         // Başlangıçta paneli aç
         controlsPanel.style.right = '0px'
-        instructions.style.bottom = '20px'
+        checkCanvasWidth()
       })
     </script>
   </body>
